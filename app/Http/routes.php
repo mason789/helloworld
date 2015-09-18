@@ -11,6 +11,13 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
+	//return 'helloworld!';
     return view('welcome');
-});
+});*/
+
+/*Route::get('user/{name?}', function($name = 'lihongsheng') {
+	return 'hello '.$name;
+});*/
+
+Route::get('/','ArticleController@index');
