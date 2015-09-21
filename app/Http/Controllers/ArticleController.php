@@ -100,7 +100,7 @@ class ArticleController extends Controller
 
         $article = Article::find($input['id']);
         //dd($article);
-        $article->update($input->except('id'));
+        $article->update(Request::except('id'));
         return redirect('/');
     }
 
