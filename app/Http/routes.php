@@ -21,3 +21,9 @@
 });*/
 
 Route::get('/','ArticleController@index');
+Route::get('articles/{id}','ArticleController@show');
+Route::get('article/create','ArticleController@create');
+Route::post('article/store','ArticleController@store');
+Route::get('article/delete/{id}','ArticleController@destroy');
+Route::get('article/edit/{id}','ArticleController@edit');
+Route::post('article/update','ArticleController@update');

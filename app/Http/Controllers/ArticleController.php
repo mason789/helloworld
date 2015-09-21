@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
+//use Illuminate\Http\Request;
+use Request;
+//use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
+use App\Utils\Foo;
+use App\Article;
 
 class ArticleController extends Controller
 {
@@ -16,9 +19,15 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $title = '这里是文章标题';
-        return view('articles.lists',compact('title'));
-        //
+
+        //$foo = new Foo;
+
+        //$foo->bar();
+
+        // $title = '这里是文章标题';
+        // return view('articles.lists',compact('title'));
+        $articles = Article::all(); 
+        return view('articles.index', compact('articles'));
     }
 
     /**
@@ -29,6 +38,7 @@ class ArticleController extends Controller
     public function create()
     {
         //
+        return view('articles.create');
     }
 
     /**
@@ -37,9 +47,15 @@ class ArticleController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store()
     {
         //
+        $input = Request::all();
+        $input['intro'] = mb_substr(Request::get('content'),0,64);
+        Article::create($input);
+        return redirect('/');
+        //return $input;
+        
     }
 
     /**
@@ -51,6 +67,10 @@ class ArticleController extends Controller
     public function show($id)
     {
         //
+        $article = Article::findOrFail($id);
+        
+        return view('articles.show', compact('article'));
+
     }
 
     /**
@@ -62,6 +82,8 @@ class ArticleController extends Controller
     public function edit($id)
     {
         //
+        $article = Article::findOrFail($id);
+        return view('articles.edit', compact('article'));
     }
 
     /**
@@ -71,9 +93,15 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
         //
+        $input = Request::all();
+
+        $article = Article::find($input['id']);
+        //dd($article);
+        $article->update($input->except('id'));
+        return redirect('/');
     }
 
     /**
@@ -85,5 +113,9 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         //
+        //$article = Article::findOrFail($id);
+        //$article::destroy($id);
+        Article::destroy($id);
+        return redirect('/');
     }
 }
